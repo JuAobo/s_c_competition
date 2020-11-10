@@ -86,7 +86,7 @@ if __name__ == '__main__':
         val_loader = DataLoader(dataset=val_set, batch_size=16, shuffle=False)
         optim = torch.optim.Adam(model.parameters(), lr=0.0005)
         # optim = SWA(base_optim, swa_start=770, swa_freq=77, swa_lr=0.0001)
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optim, T_max=30, eta_min=5e-6)
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optim, T_max=args.epoch+5, eta_min=5e-6)
         # scheduler_warmup = GradualWarmupScheduler(optim, multiplier=1, total_epoch=5, after_scheduler=scheduler)
         for epoch in range(1, args.epoch+1):
             model.train()
