@@ -76,7 +76,7 @@ if __name__ == '__main__':
         val_writer = SummaryWriter(log_dir=os.path.join('tbx_log', current_time, str(fold), 'val'))
         best_val = []
         print('=' * 20, 'Fold', fold, '=' * 20)
-        model = EfficientNet.from_pretrained(args.moel, num_classes=4)
+        model = EfficientNet.from_pretrained(args.model, num_classes=4)
         # model = pretrainedmodels.se_resnext50_32x4d(num_classes=1000, pretrained='imagenet')
         # model.last_linear = nn.Linear(2048,3)
         model = model.to(device)
