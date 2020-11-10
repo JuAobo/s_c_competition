@@ -16,7 +16,7 @@ from dataset import Data
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data-folder', type=str, default='test')
+    parser.add_argument('--data-folder', type=str, default='testA')
     args, _ = parser.parse_known_args()
     return args
 
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     args = parse_args()
     seed_everything(47)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    classes = ['normal', 'calling', 'smoking']
+    classes = ['normal', 'calling', 'smoking', 'smoking_calling']
     test_transform = albumentations.Compose([
         albumentations.Resize(224, 224),
         albumentations.Normalize()])
@@ -57,14 +57,14 @@ if __name__ == '__main__':
         albumentations.Resize(224, 224),
         albumentations.Normalize()])
     test_list = []
-    for img in os.listdir('testB'):
-        test_list.append((os.path.join('testB', img), 0))
+    for img in os.listdir(args.data_folder):
+        test_list.append((os.path.join(args.data_folder, img), 0))
     test_df = pd.DataFrame(test_list, columns=['img', 'label'])
     test_set = Data(test_df, test_transform)
     test_set2 = Data(test_df, test_transform2)
     test_tt = 0
     for net in ['efficientnet-b3', 'efficientnet-b4', 'efficientnet-b5']:
-        model = EfficientNet.from_pretrained(net, num_classes=3)
+        model = EfficientNet.from_pretrained(net, num_classes=4)
         model = model.to(device)
         model.load_state_dict(torch.load(net + '.pth'), strict=True)
         if torch.cuda.device_count() > 1:

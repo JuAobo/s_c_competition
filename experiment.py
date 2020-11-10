@@ -15,6 +15,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import KFold
 from util import LabelSmoothCELoss, GradualWarmupScheduler
 from dataset import Data
+from model import EfficientDualPool
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -75,7 +76,7 @@ if __name__ == '__main__':
         val_writer = SummaryWriter(log_dir=os.path.join('tbx_log', current_time, str(fold), 'val'))
         best_val = []
         print('=' * 20, 'Fold', fold, '=' * 20)
-        model = EfficientNet.from_pretrained(args.model, num_classes=4)
+        model = EfficientDualPool(num_classes=4, version=args.model)
         # model = pretrainedmodels.se_resnext50_32x4d(num_classes=1000, pretrained='imagenet')
         # model.last_linear = nn.Linear(2048,3)
         model = model.to(device)
